@@ -23,5 +23,6 @@ install:
   - cd -
 
 script:
+  - cd ..
   - cmake .
   - make
