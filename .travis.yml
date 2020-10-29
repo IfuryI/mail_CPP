@@ -24,6 +24,6 @@ install:
 
 script:
   - ls
-  - cd ..
-  - cmake .
+  - cmake CMakeLists.txt
   - make
+  - ./main_cpp
