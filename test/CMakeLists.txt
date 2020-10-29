@@ -10,12 +10,19 @@ find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 include_directories(../include)
 
-FILE(GLOB SOURCES *.cpp)
+FILE(GLOB SOURCES
 
-add_executable(${PROJECT_NAME}_with_static ${SOURCES})
-target_link_libraries(${PROJECT_NAME}_with_static hw2_static_lib)
-target_link_libraries(${PROJECT_NAME}_with_static ${GTEST_LIBRARIES} pthread)
+FILE(GLOB SOURCES src/*.c *.cpp))
+include_directories("include/*.h")
 
-add_executable(${PROJECT_NAME}_with_shared ${SOURCES})
-target_link_libraries(${PROJECT_NAME}_with_shared hw2_shared_lib)
-target_link_libraries(${PROJECT_NAME}_with_shared ${GTEST_LIBRARIES} pthread)
+# Статическая библиотека
+add_library(${PROJECT_NAME}_static_lib STATIC ${SOURCES} ${HEADERS})
+
+target_include_directories(${PROJECT_NAME}_static_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+# Динамическая библиотека
+add_library(${PROJECT_NAME}_shared_lib SHARED ${SOURCES} ${HEADERS})
+add_library(${PROJECT_NAME}_module MODULE ${SOURCES} ${HEADERS})
+
+target_include_directories(${PROJECT_NAME}_shared_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${PROJECT_NAME}_module PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

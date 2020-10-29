@@ -1,0 +1,27 @@
+dist: focal  # используем Ubuntu 20.04
+sudo: required  # используем Virtual Machine
+
+language: c
+os: linux
+compiler: gcc
+
+install:
+  # cmake, clang-format, valgrind, lcov
+  - sudo apt update
+  - sudo apt install clang-format
+  - sudo apt install valgrind
+  - sudo apt install cmake
+  - sudo apt install lcov
+  # add cppcheck linter
+  - sudo apt install cppcheck
+  # GTest
+  - sudo apt install libgtest-dev
+  # configure after installation
+  - cd /usr/src/gtest
+  - sudo cmake .
+  - sudo make
+  - cd -
+
+script:
+  - cmake .
+  - make
